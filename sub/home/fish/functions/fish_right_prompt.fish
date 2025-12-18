@@ -9,7 +9,7 @@ function __ando_git_status
     set -l prev_dirty $__ando_dirty
     set -l prev_dirty_color $__ando_dirty_color
     if test $__ando_cmd_id -ne $__ando_git_state_cmd_id
-        __ando_abort_check
+	    # __ando_abort_check
 
         set __ando_git_state_cmd_id $__ando_cmd_id
         set __ando_git_static ""
