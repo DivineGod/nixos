@@ -2,10 +2,10 @@
   description = "A declarative NixOS system configuration using Flakes";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -14,13 +14,13 @@
   let
     hostname = "nixos";
     system = "x86_64-linux";
-    stateVersion = "25.05";
+    stateVersion = "25.11";
     
-    username = "USERNAME"; # Replace with your actual username
-    passwordHash = "PASSWORD_HASH"; # Replace with your actual password hash 
+    username = "dg"; # Replace with your actual username
+    passwordHash = "DUMMY_HASH_REPLACE_DURING_INSTALL"; # Replace with your actual password hash 
     
-    gitUsername = "GIT_USERNAME"; # Replace with your actual git username
-    gitUseremail = "GIT_USEREMAIL"; # Replace with your actual git user email
+    gitUsername = "DivinwGod"; # Replace with your actual git username
+    gitUseremail = "divinegod@gmail.com"; # Replace with your actual git user email
   in
   {
     nixosConfigurations."${hostname}" = nixpkgs.lib.nixosSystem {

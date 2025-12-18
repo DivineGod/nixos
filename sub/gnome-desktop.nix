@@ -5,10 +5,10 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Display Manager (GDM)
-  services.xserver.displayManager.gdm.enable = true;
+  services.displayManager.gdm.enable = true;
 
   # Enable the GNOME Desktop Environment
-  services.xserver.desktopManager.gnome.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure OpenGL drivers
   hardware.graphics.enable = true;

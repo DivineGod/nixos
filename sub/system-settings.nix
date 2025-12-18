@@ -12,10 +12,10 @@
     max-jobs = "auto";
   };
 
-  time.timeZone = "Asia/Tokyo";
-  i18n.defaultLocale = "en_US.UTF-8";
-  console.keyMap = "us";
-  services.xserver.xkb.layout = "us";
+  time.timeZone = "Australia/Melbourne";
+  i18n.defaultLocale = "en_AU.UTF-8";
+  console.keyMap = "en";
+  services.xserver.xkb.layout = "au";
 
   # Set the system's hostname using the value passed from flake.nix
   networking.hostName = specialArgs.hostname; # Use the passed hostname argument
@@ -31,7 +31,7 @@
     pulse.enable = true;
   };
   
-  programs.zsh.enable = true;  
+  programs.fish.enable = true;  
 
   networking.firewall.enable = false;
 

@@ -8,130 +8,89 @@
     xdg.userDirs.createDirectories = true;
 
     home.packages = with pkgs; [
-      zsh-history-substring-search
-      zsh-powerlevel10k
- 
-      noto-fonts-cjk-sans
-      noto-fonts-cjk-serif
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       fira-code
       nerd-fonts.fira-code
+      nerd-fonts.atkynson-mono
     ];
 
     # Font configuration for Home Manager
     fonts.fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "Noto Serif CJK JP" "serif" ];
-        sansSerif = [ "Noto Sans CJK JP" "sans-serif" ];
-        monospace = [ "FiraCode Nerd Font Mono"  "monospace" ];
+        monospace = [ "iAtkinsonHyperlegibleMono Nerd Font Mono" "FiraCode Nerd Font Mono"  "monospace" ];
         emoji = [ "Noto Color Emoji" ];
       };
     };
 
-    # Japanese Input Method Editor (fcitx5 with Mozc)
-    # Note: In Home Manager, i18n.inputMethod configuration is simpler
-
-    i18n.inputMethod.enable = true;
-    i18n.inputMethod = {
-      type = "fcitx5";
-      fcitx5.addons = with pkgs; [
-        fcitx5-mozc-ut      # Mozc engine for Japanese input.
-        fcitx5-gtk          # GTK integration modules for Fcitx5.
-        fcitx5-nord  
-      ];
-    };
-
-    # Session variables for applications launched by the user
-    home.sessionVariables = {
-      GTK_IM_MODULE = "fcitx";
-      QT_IM_MODULE = "fcitx";
-      XMODIFIERS = "@im=fcitx";
-      INPUT_METHOD = "fcitx";
-    };
-
     programs.home-manager.enable = true;
+
+    programs.bat = {
+      enable = true;
+      config = {
+        theme = "dayfox";
+      };
+      themes = {
+        dayfox = {
+          src = pkgs.fetchFromGitHub {
+            owner = "EdenEast";
+            repo = "nightfox.nvim";
+            rev = "ba47d4b4c5ec308718641ba7402c143836f35aa9";
+            hash = "sha256-HoZEwncrUnypWxyB+XR0UQDv+tNu1/NbvimxYGb7qu8=";
+          };
+          file = "extra/dayfox/dayfox.tmTheme";
+        };
+      };
+    };
+    programs.eza.enable = true;
+    programs.zoxide = {
+      enable = true;
+      enableFishIntegration = true;
+    };
+
+    programs.zellij = {
+      enable = true;
+
+      enableFishIntegration = true;
+      attachExistingSession = true;
+      exitShellOnExit = true;
+      settings.theme = "dayfox";
+    };
 
     programs.git = {
       enable = true;
-      userName = specialArgs.gitUsername; # Access from specialArgs
-      userEmail = specialArgs.gitUseremail; # Access from specialArgs
-      extraConfig = {
+      settings = {
+        user.name = specialArgs.gitUsername; # Access from specialArgs
+        user.email = specialArgs.gitUseremail; # Access from specialArgs
+      
         init.defaultBranch = "main";
       };
     };
+    programs.mergiraf.enable = true;
 
-    programs.gh = {
+    programs.jujutsu.enable = true;
+    programs.jq.enable = true;
+
+    programs.atuin = {
       enable = true;
-    
-      settings = {
-        git_protocol = "ssh";
-      };
+      enableFishIntegration = true;
     };
 
-    programs.zsh = {
+    programs.fish = {
       enable = true;
-      autosuggestion.enable = true;
-      syntaxHighlighting.enable = true;
-      autocd = true;
-      shellAliases = {
-        ll = "ls -la -F --color=auto --group-directories-first";
-        update-system = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
-      };
-      initContent = ''
-        export EDITOR=nano
-        stty intr ^T
 
-        if [ -f "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme" ]; then
-          source "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
-        fi
-        if [[ -r "${config.home.homeDirectory}/.p10k.zsh" ]]; then
-          source "${config.home.homeDirectory}/.p10k.zsh"
-        fi
-        local history_substring_search_path="${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
-        if [ -f "$history_substring_search_path" ]; then
-          source "$history_substring_search_path"
-          bindkey "$terminfo[kcuu1]" history-substring-search-up
-          bindkey "$terminfo[kcud1]" history-substring-search-down
-        else
-          echo "Warning: zsh-history-substring-search plugin not found at $history_substring_search_path" >&2
-        fi
-        export BUN_INSTALL="$HOME/.bun"
-        export PATH="$BUN_INSTALL/bin:$PATH"
+      interactiveShellInit = ''
+        fish_vi_key_bindings
       '';
     };
+    xdg.configFile."fish/functions".source = ./home/fish/functions; # Make sure to add the files to the git index before running `home-manager switch`
+    xdg.configFile."fish/functions".recursive = true;
 
-    programs.ghostty = {
+    programs.alacritty = {
       enable = true;
-      package = pkgs.ghostty;
-      settings = {
-        font-size = 12;
-        background-opacity = 0.9;
-        split-divider-color = "green";
-        gtk-titlebar = false;
-        keybind = [
-          "ctrl+c=copy_to_clipboard"
-          "ctrl+shift+c=copy_to_clipboard"
-          "ctrl+shift+v=paste_from_clipboard"
-          "ctrl+v=paste_from_clipboard"
-          "ctrl+left=goto_split:left"
-          "ctrl+down=goto_split:down"
-          "ctrl+up=goto_split:up"
-          "ctrl+right=goto_split:right"
-          "ctrl+enter=new_split:down"
-        ];
-      };
-      clearDefaultKeybinds = false;
-      enableZshIntegration = true;
+      theme = "dayfox";
     };
 
-    programs.mpv = {
-	    enable = true;
-	    config = {
-	      "loop-file" = "inf";
-	    };
-    };
-    
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;

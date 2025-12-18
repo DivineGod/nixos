@@ -28,9 +28,10 @@
     # man-db    # For `man` command itself and `mandb`
   
     # Web Browsers
-    brave           # Privacy-focused web browser
-    google-chrome   # Google Chrome (requires allowUnfree = true)
-    chromium        # Open-source base for Chrome
+    firefox
+    # brave           # Privacy-focused web browser
+    # google-chrome   # Google Chrome (requires allowUnfree = true)
+    # chromium        # Open-source base for Chrome
 
     # Development Tools
     vscode          # Visual Studio Code (requires allowUnfree = true if using Microsoft's build)
@@ -43,7 +44,7 @@
     # File Sharing
     transmission_4-gtk # BitTorrent client with a GTK interface
 
-    dotnet-sdk
-    nodejs_24
+    fish
+    vim
   ];
 }
